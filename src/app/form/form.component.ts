@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Country, State, City } from 'country-state-city';
-
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
@@ -16,7 +16,7 @@ export class FormComponent implements OnInit {
   cities: any = [];
 
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private http: HttpClient ) { }
 
 
   ngOnInit(): void {
@@ -45,13 +45,21 @@ export class FormComponent implements OnInit {
   }
 
   submitForm() {
+    let url="https://hookb.in/K3xzDYyN7juPMK88MDMO"
     this.isSubmit = true;
-    if (this.form.invalid) {
-      return;
-    }
+   if (this.form.invalid) {
+       return;
+    
+   }
+   this.http.post(url,this.form.value).subscribe(res=>{
+    //here you received the response of your post
+    console.log(res);
+    //you can do asomething, like
+    alert("data sent");
+})
+}
+   
 
-    //logging all the form data you can call your rest api and submit this data from here
-    console.log(this.form.value)
-  }
+  
 
 }
