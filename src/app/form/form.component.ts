@@ -26,12 +26,12 @@ export class FormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    //console.log(City.getCitiesOfState('US', 'AL'));
-
     this.states = State.getStatesOfCountry('US');
+  }
 
-    console.log(this.states)
-    
+  onStateChange(){
+    console.log(this.form.controls.state);
+    this.cities = City.getCitiesOfState('US', this.form.controls.state.value);
   }
 
   submitForm(){
