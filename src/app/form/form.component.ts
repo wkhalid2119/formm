@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { Country, State, City }  from 'country-state-city';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
+import { Country, State, City } from 'country-state-city';
 
 @Component({
   selector: 'app-form',
@@ -9,31 +9,46 @@ import { Country, State, City }  from 'country-state-city';
 })
 export class FormComponent implements OnInit {
 
-  states:any = [];
-  cities:any = [];
+  form: FormGroup; // from group to create form
+  isSubmit: boolean = false;
 
-  form = new FormGroup({
-    CN: new FormControl(''),
-    ORG: new FormControl(''),
-    OU: new FormControl(''),
-    city: new FormControl(''),
-    state: new FormControl(''),
-    email: new FormControl(''),
-    keytype: new FormControl(''),
-    keyLength: new FormControl(),
-  });
+  states: any = [];
+  cities: any = [];
 
-  constructor() { }
+
+  constructor(private fb: FormBuilder) { }
+
 
   ngOnInit(): void {
     this.states = State.getStatesOfCountry('US');
+    this.create();
   }
 
-  onStateChange(){
+  create() {
+    this.form = this.fb.group({
+      cn: ['', [Validators.required]],
+      org: ['', [Validators.required]],
+      ou: ['', [Validators.required]],
+      city: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      keyType: ['', [Validators.required]],
+      keyLength: ['', [Validators.required]],
+    });
+  }
+
+  // getter of form controls
+  get f() { return this.form.controls; }
+
+  onStateChange() {
     this.cities = City.getCitiesOfState('US', this.form.controls.state.value);
   }
 
-  submitForm(){
+  submitForm() {
+    this.isSubmit = true;
+    if (this.form.invalid) {
+      return;
+    }
 
     //logging all the form data you can call your rest api and submit this data from here
     console.log(this.form.value)
