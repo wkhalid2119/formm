@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Country, State, City }  from 'country-state-city';
 
 @Component({
   selector: 'app-form',
@@ -7,6 +8,9 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./form.component.css']
 })
 export class FormComponent implements OnInit {
+
+  states:any = [];
+  cities:any = [];
 
   form = new FormGroup({
     CN: new FormControl(''),
@@ -22,6 +26,12 @@ export class FormComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    //console.log(City.getCitiesOfState('US', 'AL'));
+
+    this.states = State.getStatesOfCountry('US');
+
+    console.log(this.states)
+    
   }
 
   submitForm(){
