@@ -30,12 +30,13 @@ export class FormComponent implements OnInit {
   }
 
   onStateChange(){
-    console.log(this.form.controls.state);
     this.cities = City.getCitiesOfState('US', this.form.controls.state.value);
   }
 
   submitForm(){
-    console.log(this.form.controls)
+
+    //logging all the form data you can call your rest api and submit this data from here
+    console.log(this.form.value)
   }
 
 }
